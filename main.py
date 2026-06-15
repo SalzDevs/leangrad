@@ -11,6 +11,10 @@ class Value:
     def mul(self,val1,val2):
         self.operations.append(str(val1.data) + "*" + str(val2.data))
         self.data = val1.data*val2.data
+    
+    def sub(self,val1,val2):
+        self.operations.append(str(val1.data) + "-" + str(val2.data))
+        self.data = val1.data-val2.data 
 
 x = Value(7)
 y = Value(3)
@@ -19,6 +23,7 @@ z = Value(0)
 z.add(x,y)
 z.add(z,Value(1))
 z.mul(z,Value(2))
+z.sub(z,Value(1))
 
 print(z.data)
 print(z.operations)
