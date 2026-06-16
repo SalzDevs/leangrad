@@ -6,7 +6,7 @@ class Value:
         self.grad = 0
         self._backward = lambda: None
 
-    def add(self, other):
+    def __add__(self, other):
         out = Value(self.data + other.data, (self, other), "+")
 
         def _backward():
@@ -16,7 +16,7 @@ class Value:
         out._backward = _backward
         return out
 
-    def mul(self, other):
+    def __mul__(self, other):
         out = Value(self.data * other.data, (self, other), "*")
 
         def _backward():
@@ -34,9 +34,10 @@ class Value:
 x = Value(7)
 y = Value(3)
 
-z = x.add(y)
-z = z.add(Value(1))
-z = z.mul(Value(2))
-z = z.sub(Value(1))
+z = x + y
+z = z + Value(1)
+z = z + Value(2)
+z = z + Value(-1)
+z = z * z
 
 z.print_graph()
