@@ -3,15 +3,28 @@ class Value:
         self.data = data
         self._prev = set(_prev)
         self.op = op
+        self.grad = 0
+        self._backward = lambda: None
 
     def add(self, other):
-        return Value(self.data + other.data, (self, other), "+")
+        out = Value(self.data + other.data, (self, other), "+")
+
+        def _backward():
+            self.grad += out.grad
+            other.grad += out.grad
+
+        out._backward = _backward
+        return out
 
     def mul(self, other):
-        return Value(self.data * other.data, (self, other), "*")
+        out = Value(self.data * other.data, (self, other), "*")
 
-    def sub(self, other):
-        return Value(self.data - other.data, (self, other), "-")
+        def _backward():
+            self.grad += other.data * out.grad
+            other.grad += self.data * out.grad
+
+        out._backward = _backward
+        return out
 
     def print_graph(self, indent=0):
         print("  " * indent + f"{self.data} [{self.op}]")
