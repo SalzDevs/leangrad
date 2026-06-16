@@ -25,6 +25,12 @@ class Value:
 
         out._backward = _backward
         return out
+    
+    def __neg__(self):
+        return self * Value(-1) 
+
+    def __sub__(self,other):
+        return self + (-other)
 
     def print_graph(self, indent=0):
         print("  " * indent + f"{self.data} [{self.op}]")
@@ -39,5 +45,6 @@ z = z + Value(1)
 z = z + Value(2)
 z = z + Value(-1)
 z = z * z
-
+z  = -z
+z = z - Value(40)
 z.print_graph()
