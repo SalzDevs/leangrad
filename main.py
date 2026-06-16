@@ -31,6 +31,12 @@ class Value:
 
     def __sub__(self,other):
         return self + (-other)
+    
+    def __pow__(self,exp):
+        out = Value(1) 
+        for i in range(exp):
+            out = out * self
+        return out
 
     def print_graph(self, indent=0):
         print("  " * indent + f"{self.data} [{self.op}]")
@@ -47,4 +53,9 @@ z = z + Value(-1)
 z = z * z
 z  = -z
 z = z - Value(40)
+
+d = y ** 3
+
 z.print_graph()
+print("--------")
+d.print_graph()
