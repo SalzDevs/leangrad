@@ -1,40 +1,25 @@
-class Operation:
-    def __init__(self,var1,var2,oper):
-        self.var1 = var1
-        self.var2 = var2
-        self.oper = oper
-
-    def __str__(self):
-        return f"{self.var1} {self.oper} {self.var2}"
-
 class Value:
-    def __init__(self,data:int,varName:str):
+    def __init__(self, data, _prev=(), op=""):
         self.data = data
-        self.operations = []
-        self.varName = varName
+        self._prev = set(_prev)
+        self.op = op
+
+    def add(self, other):
+        return Value(self.data + other.data, (self, other), "+")
+
+    def mul(self, other):
+        return Value(self.data * other.data, (self, other), "*")
+
+    def sub(self, other):
+        return Value(self.data - other.data, (self, other), "-")
 
 
-    def add(self,val1, val2):
-        operation = Operation(val1.varName,val2.varName,"+")
-        self.operations.append(str(operation))
-        self.data = val1.data+val2.data
+x = Value(7)
+y = Value(3)
 
-    def mul(self,val1,val2):
-        #self.operations.append()str(val1.data) + "-" + str(val2.data))
-        #self.data = val1.data*val2.data
-        pass
-    def sub(self,val1,val2):
-        #self.operations.append(str(val1.data) + "-" + str(val2.data))
-        #self.data = val1.data-val2.data
-        pass
-
-#init (x,y,z)
-x = Value(7,'x')
-y = Value(3,'y')
-z = Value(0,'z') 
-
-#operations on z
-z.add(x,y)
+z = x.add(y)
+z = z.add(Value(1))
+z = z.mul(Value(2))
+z = z.sub(Value(1))
 
 print(z.data)
-print(z.operations)
